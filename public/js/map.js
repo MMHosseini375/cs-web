@@ -1,0 +1,23 @@
+export const MAP = {
+  bounds: { x: 40, z: 40 },
+  bombSite: { x: 0, z: -15, r: 5 },
+  spawnT:  { x: -30, z:  30 },
+  spawnCT: { x:  30, z: -30 },
+  boxes: [
+    { x:   0, y: 2.5, z:  42, w: 84, h: 5, d: 2, color: 0x3b4658 },
+    { x:   0, y: 2.5, z: -42, w: 84, h: 5, d: 2, color: 0x3b4658 },
+    { x:  42, y: 2.5, z:   0, w: 2,  h: 5, d: 84, color: 0x3b4658 },
+    { x: -42, y: 2.5, z:   0, w: 2,  h: 5, d: 84, color: 0x3b4658 },
+    { x: -20, y: 2, z: 0,  w: 2,  h: 4, d: 30, color: 0x50607a },
+    { x:  20, y: 2, z: 0,  w: 2,  h: 4, d: 30, color: 0x50607a },
+    { x:   0, y: 2, z: 10, w: 20, h: 4, d: 2,  color: 0x50607a },
+    { x: -30, y: 2, z: -10,w: 2,  h: 4, d: 20, color: 0x50607a },
+    { x:  30, y: 2, z:  10,w: 2,  h: 4, d: 20, color: 0x50607a },
+    { x: -3, y: 1, z: -15, w: 2, h: 2, d: 2, color: 0xa66b3a },
+    { x:  3, y: 1, z: -15, w: 2, h: 2, d: 2, color: 0xa66b3a },
+    { x:  0, y: 2, z: -19, w: 4, h: 4, d: 2, color: 0xa66b3a },
+    { x: -10, y: 1.5, z: -25, w: 3, h: 3, d: 3, color: 0x607a90 },
+    { x:  10, y: 1.5, z:  25, w: 3, h: 3, d: 3, color: 0x607a90 },
+    { x:   0, y: 1,   z:   0, w: 6, h: 2, d: 6, color: 0x607a90 },
+  ],
+};
