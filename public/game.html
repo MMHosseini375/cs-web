@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>CS-Web | بازی</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #000;
+               font-family: Tahoma, sans-serif; color: #fff; }
+  #game { position: fixed; inset: 0; }
+  .hud { position: fixed; pointer-events: none; user-select: none; }
+  #topBar {
+    top: 0; left: 0; right: 0; padding: 10px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent);
+  }
+  #timer { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
+  #scores { font-size: 18px; }
+  .score-t { color: #ff6b45; } .score-ct { color: #4599ff; }
+  #bottomBar {
+    bottom: 20px; left: 20px; right: 20px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  #health { font-size: 30px; font-weight: bold; color: #7dff9a;
+            text-shadow: 0 2px 8px #000; }
+  #teamLabel { font-size: 14px; opacity: .8; }
+  #bombStatus { font-size: 16px; color: #ffb347; margin-top: 6px; }
+  #crosshair {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 20px; height: 20px; pointer-events: none;
+  }
+  #crosshair::before, #crosshair::after {
+    content: ''; position: absolute; background: rgba(255,255,255,.85);
+  }
+  #crosshair::before { left: 9px; top: 0; width: 2px; height: 8px; }
+  #crosshair::after  { left: 9px; bottom: 0; width: 2px; height: 8px; }
+  .ch-h { position: absolute; background: rgba(255,255,255,.85); }
+  .ch-l { left: 0; top: 9px; width: 8px; height: 2px; }
+  .ch-r { right: 0; top: 9px; width: 8px; height: 2px; }
+  #centerMsg {
+    position: fixed; top: 30%; left: 50%; transform: translateX(-50%);
+    font-size: 36px; font-weight: bold; text-align: center;
+    text-shadow: 0 4px 20px #000; pointer-events: none;
+  }
+  #hint {
+    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+    font-size: 14px; background: rgba(0,0,0,.5); padding: 8px 16px;
+    border-radius: 8px; opacity: 0; transition: opacity .2s;
+  }
+  #hint.show { opacity: 1; }
+  #pointerLockPrompt {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.6); cursor: pointer; z-index: 10;
+    font-size: 20px; text-align: center;
+  }
+  #pointerLockPrompt.hidden { display: none; }
+  #chat {
+    position: fixed; bottom: 20px; right: 20px; width: 320px;
+    max-height: 220px; overflow-y: auto; font-size: 13px;
+    background: rgba(0,0,0,.4); border-radius: 8px; padding: 8px 12px;
+    pointer-events: none;
+  }
+  #chat div { margin: 2px 0; opacity: .9; }
+  .chat-t { color: #ff8f6b; } .chat-ct { color: #8fc5ff; }
+  #progressBar {
+    position: fixed; bottom: 130px; left: 50%; transform: translateX(-50%);
+    width: 260px; height: 16px; background: rgba(0,0,0,.6);
+    border-radius: 8px; overflow: hidden; display: none;
+  }
+  #progressBar .fill { height: 100%; background: #ffb347; width: 0%; transition: width .05s linear; }
+  #progressBar.active { display: block; }
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div id="crosshair">
+  <div class="ch-h ch-l"></div>
+  <div class="ch-h ch-r"></div>
+</div>
+<div class="hud" id="topBar">
+  <div id="timer">--</div>
+  <div id="scores">
+    <span class="score-t" id="scoreT">0</span> :
+    <span class="score-ct" id="scoreCT">0</span>
+  </div>
+</div>
+<div class="hud" id="bottomBar">
+  <div>
+    <div id="health">100</div>
+    <div id="teamLabel">--</div>
+  </div>
+  <div id="bombStatus"></div>
+</div>
+<div id="centerMsg"></div>
+<div id="hint"></div>
+<div id="progressBar"><div class="fill" id="progressFill"></div></div>
+<div id="chat"></div>
+<div id="pointerLockPrompt">برای شروع بازی کلیک کن<br><small>(Esc برای خروج از حالت قفل ماوس)</small></div>
+
+<script>
+  window.GAME_CONFIG = {
+    name: new URLSearchParams(location.search).get('name') || 'Player',
+    team: new URLSearchParams(location.search).get('team') === 't' ? 't' : 'ct',
+  };
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="js/game.js"></script>
+</body>
+</html>

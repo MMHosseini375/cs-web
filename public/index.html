@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>CS-Web | لابی</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: Tahoma, sans-serif;
+    background: radial-gradient(circle at top, #1e2436, #0b0d13 70%);
+    color: #e6e8ee; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    background: rgba(20,25,40,.85); padding: 40px 50px; border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6); border: 1px solid #2a3350;
+    text-align: center; width: 520px;
+  }
+  h1 { margin: 0 0 10px; letter-spacing: 2px; }
+  .sub { color: #8f9bb5; margin-bottom: 25px; font-size: 14px; }
+  input {
+    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #2a3350;
+    background: #10131c; color: #fff; font-size: 16px; outline: none; margin-bottom: 20px;
+  }
+  input:focus { border-color: #4d7dff; }
+  .teams { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  button {
+    padding: 25px 10px; border-radius: 12px; border: none; cursor: pointer;
+    font-size: 16px; font-weight: bold; color: #fff; transition: transform .15s;
+  }
+  button:hover { transform: translateY(-3px); }
+  .t  { background: linear-gradient(135deg, #b1341b, #ff6b45); }
+  .ct { background: linear-gradient(135deg, #1b4bb1, #4599ff); }
+  .info { margin-top: 25px; color: #8f9bb5; font-size: 13px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>CS-WEB</h1>
+    <div class="sub">یک تیم را انتخاب کن · ظرفیت هر تیم ۵ نفر</div>
+    <input id="name" placeholder="نام بازیکن" maxlength="16">
+    <div class="teams">
+      <button class="t"  onclick="join('t')">تروریست<br><small>Terrorist</small></button>
+      <button class="ct" onclick="join('ct')">ضدتروریست<br><small>Counter-Terrorist</small></button>
+    </div>
+    <div class="info" id="teamsInfo">در حال اتصال...</div>
+  </div>
+
+<script>
+const ws = new WebSocket(
+  (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host
+);
+ws.onmessage = e => {
+  const m = JSON.parse(e.data);
+  if (m.type === 'lobby') {
+    document.getElementById('teamsInfo').textContent =
+      `تروریست: ${m.t}/${m.max}   |   ضدتروریست: ${m.ct}/${m.max}`;
+  }
+};
+ws.onopen = () => ws.send(JSON.stringify({ type: 'lobby_ping' }));
+
+function join(team) {
+  const name = (document.getElementById('name').value || 'Player').trim().slice(0, 16);
+  location.href = `game.html?team=${team}&name=${encodeURIComponent(name)}`;
+}
+</script>
+</body>
+</html>
